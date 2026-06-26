@@ -8,6 +8,7 @@ class BasePage:
 
     def __init__(self, driver: WebDriver):
         self.driver = driver
+        self.wait = WebDriverWait(self.driver, 10)
 
     url = ''
     __language_list = ['ru', 'en']
@@ -18,6 +19,7 @@ class BasePage:
     def open(self):
         """Открыть страницу"""
         self.driver.get(self.url)
+        self.wait.until(EC.presence_of_element_located(self.eng_btn))
 
     def switch_language_to(self, language):
         """
@@ -30,7 +32,8 @@ class BasePage:
         if language == 'en':
             btn = self.driver.find_element(*self.eng_btn)
             btn.click()
-            assert 'hover:text-gray-600' in btn.get_attribute('className'), 'Язык не изменился'
+            print(btn.get_attribute('className'))
+            assert 'bg-brand-100' in btn.get_attribute('className'), 'Язык не изменился'
         elif language == 'ru':
             btn = self.driver.find_element(*self.rus_btn)
             btn.click()
