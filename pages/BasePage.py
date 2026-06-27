@@ -17,6 +17,6 @@ class BasePage:
     def switch_language(self, language):
         """
         Поменять язык страницы
-        :param language: язык из __language_list
+        :param language: язык
         """
         self.language_switch.switch_language(language)

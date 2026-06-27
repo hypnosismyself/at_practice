@@ -4,6 +4,7 @@ from elements.button import Button
 
 
 class LanguageSwitch(BaseElement):
+    """Переключатель языка"""
 
     def __init__(self, driver, how, locator: str, name: str):
         super().__init__(driver, how, locator, name)
@@ -15,7 +16,10 @@ class LanguageSwitch(BaseElement):
         return f'переключатель языка {self.name}'
 
     def switch_language(self, language):
-
+        """
+        Переключить язык
+        :param language: язык из __language_list
+        """
         if language not in self.__language_list:
             raise Exception('Выбран несуществующий язык')
 

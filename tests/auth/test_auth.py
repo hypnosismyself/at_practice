@@ -1,7 +1,5 @@
 import unittest
-
 from selenium import webdriver
-
 from pages.login import LoginPage
 
 
