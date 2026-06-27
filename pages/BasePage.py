@@ -5,11 +5,10 @@ from elements.language_switch import LanguageSwitch
 
 class BasePage:
 
-    url = ''
-
     def __init__(self, driver: WebDriver):
         self.driver = driver
         self.language_switch = LanguageSwitch(self.driver, By.CSS_SELECTOR, 'div .absolute', 'свитч языка')
+        self.url = ''
 
     def open(self):
         """Открыть страницу"""
