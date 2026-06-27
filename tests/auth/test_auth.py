@@ -1,7 +1,5 @@
 import unittest
-
 from selenium import webdriver
-
 from pages.login import LoginPage
 
 
@@ -19,4 +17,4 @@ class LoginTest(unittest.TestCase):
         cls.driver.quit()
 
     def test_01_switch_language(self):
-        self.login_page.switch_language_to('en')
+        self.login_page.switch_language('en')
