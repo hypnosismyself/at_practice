@@ -25,7 +25,7 @@ class LanguageSwitch(BaseElement):
 
         if language == 'en':
             self.eng_btn.click()
-            assert 'bg-brand-100' in self.eng_btn.get_attribute('className'), 'Язык не изменился'
+            assert self.eng_btn.has_class('bg-brand-100'), 'Язык не изменился'
         elif language == 'ru':
             self.rus_btn.click()
-            assert 'bg-brand-100' in self.rus_btn.get_attribute('className'), 'Язык не изменился'
+            assert self.eng_btn.has_class('bg-brand-100'), 'Язык не изменился'
