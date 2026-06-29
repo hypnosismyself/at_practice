@@ -21,7 +21,7 @@ class BaseElement:
 
     def click(self):
         """Клик по элементу"""
-        self.__wait.until(EC.presence_of_element_located((self.how, self.locator))).click()
+        self.__wait.until(EC.element_to_be_clickable((self.how, self.locator))).click()
 
     def type_in(self, text: str):
         """Ввод текста в элемент"""
