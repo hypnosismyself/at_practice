@@ -9,7 +9,7 @@ class LoginPage(BasePage):
         super().__init__(driver)
         self.url = 'http://localhost:3000/login'
         self.driver = driver
-        login = Text(self.driver, ByCustom.DATA_TESTID, 'auth-email-input', 'логин')
+        self.login_txt = Text(self.driver, ByCustom.DATA_TESTID, 'auth-email-input', 'логин')
 
     def login(self, email, password):
-        self.login.type_in(email)
+        self.login_txt.type_in(email)

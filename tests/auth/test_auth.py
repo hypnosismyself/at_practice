@@ -19,5 +19,5 @@ class LoginTest(TestCase):
         cls.driver.quit()
 
     def test_01_switch_language(self):
-        print(self.config.get('LOGIN'))
         self.login_page.switch_language('en')
+        self.login_page.login(self.config.get('LOGIN'), self.config.get('PASS'))
