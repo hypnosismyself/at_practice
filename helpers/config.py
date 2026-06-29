@@ -1,8 +1,12 @@
-from dotenv import load_dotenv
-load_dotenv()
+import configparser
 
 
 class Config:
 
-    def get(self):
+    def __init__(self):
+        self.__config = configparser.ConfigParser()
         pass
+
+    def get(self, key: str):
+        self.__config.read('config.ini')
+        return self.__config['general'][key]
