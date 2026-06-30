@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class BaseElement:
 
-    def __init__(self, driver: webdriver, how, locator: str, name: str, wait=5):
+    def __init__(self, driver: webdriver, how, locator: str, name: str, wait=10):
         self.driver = driver
         from helpers.by import ByCustom
         if how == ByCustom.DATA_TESTID:
