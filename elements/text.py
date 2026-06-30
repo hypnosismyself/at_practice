@@ -9,4 +9,4 @@ class Text(BaseElement):
         super().__init__(driver, how, locator, name)
 
     def __str__(self):
-        return f'поле ввода {self.name}'
+        return f'Поле ввода {self.name}'

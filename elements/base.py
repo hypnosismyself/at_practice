@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class BaseElement:
+    """Базовый элемент"""
 
     def __init__(self, driver: webdriver, how, locator: str, name: str, wait=10):
         self.driver = driver
@@ -17,7 +18,7 @@ class BaseElement:
         self.__wait = WebDriverWait(self.driver, wait)
 
     def __str__(self):
-        return 'элемент'
+        return 'Элемент'
 
     def click(self):
         """Клик по элементу"""
@@ -35,3 +36,14 @@ class BaseElement:
         """Есть класс"""
         element = self.__wait.until(EC.presence_of_element_located((self.how, self.locator)))
         return classname in element.get_attribute('className')
+
+    @property
+    def text(self):
+        """Текст"""
+        return self.__wait.until(EC.presence_of_element_located((self.how, self.locator))).text
+
+    @property
+    def value(self):
+        """Значение"""
+        element = self.__wait.until(EC.presence_of_element_located((self.how, self.locator)))
+        return element.get_attribute('value')

@@ -13,7 +13,7 @@ class LanguageSwitch(BaseElement):
         self.rus_btn = Button(self.driver, By.CSS_SELECTOR, '[data-testid="lang-ru"]', 'русский язык')
 
     def __str__(self):
-        return f'переключатель языка {self.name}'
+        return f'Переключатель языка {self.name}'
 
     def switch_language(self, language):
         """
