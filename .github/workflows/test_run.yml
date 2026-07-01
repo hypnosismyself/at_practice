@@ -24,66 +24,107 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Переключаемся на репозиторий
-        uses: actions/checkout@v7.0.0
+        uses: actions/checkout@v4   # используйте стабильную версию
+
       - name: Поднимаем тестовый сайт
         run: |
           git clone https://github.com/manikosto/qa-automation-sandbox
           cd qa-automation-sandbox
           docker compose up -d --build
-          sleep 10   # даём время контейнерам подняться
+          timeout 60s bash -c 'while ! curl -s http://localhost:8080 > /dev/null; do echo "Ждём..."; sleep 2; done'
+
       - name: Устанавливаем Python
         uses: actions/setup-python@v6.3.0
         with:
           python-version: "3.12.7"
+
       - name: Устанавливаем Chrome
-        run: sudo apt-get install google-chrome-stable
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
       - name: Устанавливаем зависимости
         run: pip install -r requirements.txt
+
       - name: Запускаем тесты
         run: pytest ./tests -v --alluredir=allure-results
-      - name: Выгружаем отчет
+
+      - name: Проверяем, что результаты создались
+        run: |
+          ls -la allure-results/ || echo "Папка пуста или не создана"
+
+      - name: Выгружаем результаты тестов
         uses: actions/upload-artifact@v7.0.1
         with:
           name: allure-results
-          path:
-            allure-results
+          path: allure-results
           retention-days: 3
 
   generate-report:
     runs-on: ubuntu-latest
     needs: test
-    name: Создать отчет
+    name: Создать отчёт
     steps:
       - name: Устанавливаем Java
         uses: actions/setup-java@v5.4.0
         with:
           distribution: 'microsoft'
           java-version: '17'
-      - run: | 
-          sudo wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz
+
+      - name: Устанавливаем Allure
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz
           sudo tar -zxvf allure-2.23.1.tgz -C /opt/
           sudo ln -s /opt/allure-2.23.1/bin/allure /usr/bin/allure
-      - name: Выкачиваем артефакты
+
+      - name: Скачиваем результаты текущего прогона
         uses: actions/download-artifact@v8.0.1
-      - name: Генерируем отчет
-        run: allure generate -c allure-results -o _site
-      - name: Сохраняем отчет
+        with:
+          name: allure-results
+          path: allure-results
+
+      - name: Скачиваем предыдущий отчёт (если есть) для сохранения истории
+        continue-on-error: true   # не останавливаем, если нет предыдущего
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: _site
+          path: previous-site
+
+      - name: Копируем историю из старого отчёта
+        run: |
+          if [ -d "previous-site/history" ]; then
+            cp -R previous-site/history allure-results/
+            echo "История скопирована"
+          else
+            echo "Предыдущая история не найдена, создаём новый отчёт"
+          fi
+
+      - name: Генерируем отчёт (с историей)
+        run: allure generate allure-results -o _site
+
+      - name: Сохраняем сгенерированный отчёт (с историей)
         uses: actions/upload-artifact@v7.0.1
         with:
           name: _site
-          path:
-            _site
-          retention-days: 1
+          path: _site
+          retention-days: 3
 
   publish-report:
     runs-on: ubuntu-latest
     needs: generate-report
-    name: Опубликовать отчет
+    name: Опубликовать отчёт
     steps:
-      - name: Получаем артефакты прогона
+      - name: Скачиваем готовый отчёт
         uses: actions/download-artifact@v8.0.1
-      - name: Подгружаем артефакты в пейдж
+        with:
+          name: _site
+          path: _site
+
+      - name: Загружаем Pages артефакт
         uses: actions/upload-pages-artifact@v5.0.0
-      - name: Деплоим в GitHubPages
+        with:
+          path: _site
+
+      - name: Деплоим в GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5.0.0
