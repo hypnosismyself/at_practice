@@ -3,6 +3,7 @@ name: Головная сборка
 permissions:
   contents: read
   id-token: write
+  pages: write
 
 on:
   workflow_dispatch:
