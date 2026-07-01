@@ -1,9 +1,13 @@
 from unittest import TestCase
+
+import allure
 from selenium import webdriver
 from pages.login import LoginPage
 from helpers.config import Config
 
 
+@allure.feature('Авторизация')
+@allure.tag('Smoke')
 class LoginTest(TestCase):
 
     @classmethod
@@ -18,5 +22,7 @@ class LoginTest(TestCase):
     def tearDownClass(cls):
         cls.driver.quit()
 
+    @allure.title('Авторизация по логину и паролю')
+    @allure.severity(allure.severity_level.CRITICAL)
     def test_01_basic_auth(self):
         self.login_page.auth_by_login_and_password(self.config.get('LOGIN'), self.config.get('PASS'))
