@@ -1,7 +1,6 @@
 from unittest import TestCase
 import allure
 import pytest
-import requests
 from selenium import webdriver
 from pages.login import LoginPage
 from helpers.config import Config
