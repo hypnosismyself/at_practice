@@ -6,8 +6,9 @@ from pages.login import LoginPage
 from helpers.config import Config
 
 
-@allure.feature('Авторизация')
-@allure.tag('Smoke')
+@allure.epic("Магический портал")
+@allure.feature("Авторизация")
+@allure.story("Успешный вход пользователя")
 class LoginTest(TestCase):
 
     @classmethod
@@ -21,9 +22,10 @@ class LoginTest(TestCase):
     def tearDownClass(cls):
         cls.driver.quit()
 
-    @allure.title('Авторизация по логину и паролю')
+    @allure.tag('Smoke')
     @allure.severity(allure.severity_level.CRITICAL)
     def test_01_basic_auth(self):
+        """Авторизация по логину и паролю"""
 
         with allure.step('Открываем страницу авторизации'):
             self.login_page.open()
