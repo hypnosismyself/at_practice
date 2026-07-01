@@ -1,14 +1,26 @@
 name: Head test
 
 on:
-  push
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: Choose target
+        required: true
+        default:
+        type: choice
+        options:
+          - smoke
+          - acceptance
 
 jobs:
+
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+      - name: Up site
+        run: git clone https://github.com/manikosto/qa-automation-sandbox && cd qa-automation-sandbox && docker-compose up --build
       - name: Install python
         uses: actions/setup-python@v4
         with:
