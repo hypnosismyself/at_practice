@@ -1,4 +1,4 @@
-name: Голова
+name: Головная сборка
 
 on:
   workflow_dispatch:
@@ -59,8 +59,9 @@ jobs:
           sudo tar -zxvf allure-2.23.1.tgz -C /opt/
           sudo ln -s /opt/allure-2.23.1/bin/allure /usr/bin/allure
       - name: Выкачиваем артефакты
-        uses: actions/download-artifact@v3
-      - run: allure generate -c allure-results -o _site
+        uses: actions/download-artifact@v8.0.1
+      - name: Генерируем отчет
+        run: allure generate -c allure-results -o _site
       - name: Сохраняем отчет
         uses: actions/upload-artifact@v7.0.1
         with:
@@ -75,7 +76,7 @@ jobs:
     name: Опубликовать отчет
     steps:
       - name: Получаем артефакты прогона
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8.0.1
       - name: Подгружаем артефакты в пейдж
         uses: actions/upload-pages-artifact@v5.0.0
       - name: Деплоим в GitHubPages
