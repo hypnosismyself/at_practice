@@ -26,7 +26,6 @@ class Config:
         if self.__config['custom']['headless'] == 'true':
             self.__options.add_argument('--headless')
 
-        print(self.__config)
         return self.__options
 
     def __load_config(self):

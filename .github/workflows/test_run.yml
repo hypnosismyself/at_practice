@@ -40,7 +40,7 @@ jobs:
       - name: Устанавливаем зависимости
         run: pip install -r requirements.txt
       - name: Запускаем тесты
-        run: pytest ./tests -v
+        run: pytest ./tests -v --alluredir=allure-results
       - name: Выгружаем отчет
         uses: actions/upload-artifact@v7.0.1
         with:
