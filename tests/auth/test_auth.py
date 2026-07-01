@@ -1,5 +1,4 @@
 from unittest import TestCase
-
 import allure
 import pytest
 from selenium import webdriver
@@ -19,11 +18,10 @@ class LoginTest(TestCase):
         cls.driver.maximize_window()
         cls.login_page = LoginPage(cls.driver)
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
+    def setUp(self):
+        with allure.step('Открываем страницу авторизации'):
+            self.login_page.open()
 
-    @allure.tag('Smoke')
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.acceptance
     def test_01_basic_auth(self):
@@ -35,14 +33,13 @@ class LoginTest(TestCase):
         with allure.step('Авторизуемся по логину и паролю'):
             self.login_page.auth_by_login_and_password(self.config.get('LOGIN'), self.config.get('PASS'))
 
-    @allure.tag('Smoke')
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.smoke
-    def test_01_basic_auth(self):
-        """Авторизация по логину и паролю"""
+    def test_02_fast_auth(self):
+        """Авторизация по быстрой кнопке"""
+        with allure.step('Авторизуемся кнопкой быстрой авторизации'):
+            self.login_page.fast_auth(self.config.get('ROLE'))
 
-        with allure.step('Открываем страницу авторизации'):
-            self.login_page.open()
-
-        with allure.step('Авторизуемся по логину и паролю'):
-            self.login_page.auth_by_login_and_password(self.config.get('LOGIN'), self.config.get('PASS'))
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()

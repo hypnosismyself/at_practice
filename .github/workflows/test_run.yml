@@ -46,8 +46,13 @@ jobs:
       - name: Устанавливаем зависимости
         run: pip install -r requirements.txt
 
-      - name: Запускаем тесты
-        run: pytest ./tests -v --alluredir=allure-results
+      - name: Запускаем smoke тесты
+        if: github.event.inputs.deployment_target == 'Смоки'
+        run: pytest ./tests -v -m smoke --alluredir=allure-results
+
+      - name: Запускаем acceptance тесты
+        if: github.event.inputs.deployment_target == 'Приемочные'
+        run: pytest ./tests -v -m acceptance --alluredir=allure-results
 
       - name: Проверяем, что результаты создались
         run: |
