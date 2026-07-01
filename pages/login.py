@@ -1,5 +1,6 @@
+import allure
+from pages.base import BasePage
 from elements.button import Button
-from pages.BasePage import BasePage
 from elements.text import Text
 from helpers.by import ByCustom
 
@@ -16,6 +17,7 @@ class LoginPage(BasePage):
         self.password_txt = Text(self.__driver, ByCustom.DATA_TESTID, 'auth-password-input', 'пароль')
         self.login_btn = Button(self.__driver, ByCustom.DATA_TESTID, 'auth-login-btn', 'Авторизоваться')
 
+    @allure.step('Авторизуемся по логину и паролю')
     def auth_by_login_and_password(self, email, password):
         """
         Авторизоваться по логину и паролю
