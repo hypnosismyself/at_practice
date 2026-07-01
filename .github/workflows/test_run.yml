@@ -64,7 +64,7 @@ jobs:
           ls -la allure-results/ || echo "Папка пуста или не создана"
 
       - name: Выгружаем результаты тестов
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: allure-results
           path: allure-results
@@ -113,7 +113,7 @@ jobs:
         run: allure generate allure-results -o _site
 
       - name: Сохраняем сгенерированный отчёт (с историей)
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: _site
           path: _site
