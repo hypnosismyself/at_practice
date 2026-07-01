@@ -56,7 +56,7 @@ jobs:
         run: pytest ./tests -v -m acceptance --alluredir=allure-results
 
       - name: Запускаем все тесты
-        if: github.event.inputs.deployment_target == 'Приемочные'
+        if: github.event.inputs.deployment_target == 'Все'
         run: pytest ./tests -v --alluredir=allure-results
 
       - name: Проверяем, что результаты создались
