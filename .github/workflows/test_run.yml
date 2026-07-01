@@ -64,7 +64,7 @@ jobs:
           ls -la allure-results/ || echo "Папка пуста или не создана"
 
       - name: Выгружаем результаты тестов
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: allure-results
           path: allure-results
@@ -94,7 +94,7 @@ jobs:
           path: allure-results
 
       - name: Скачиваем предыдущий отчёт (если есть) для сохранения истории
-        continue-on-error: true   # не останавливаем, если нет предыдущего
+        continue-on-error: true
         uses: actions/download-artifact@v8.0.1
         with:
           name: _site
@@ -113,7 +113,7 @@ jobs:
         run: allure generate allure-results -o _site
 
       - name: Сохраняем сгенерированный отчёт (с историей)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: _site
           path: _site
