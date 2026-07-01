@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Переключаемся на репозиторий
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7.0.0
       - name: Поднимаем тестовый сайт
         run: |
           git clone https://github.com/manikosto/qa-automation-sandbox
@@ -32,7 +32,7 @@ jobs:
           docker compose up -d --build
           sleep 10   # даём время контейнерам подняться
       - name: Устанавливаем Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6.3.0
         with:
           python-version: "3.12.7"
       - name: Устанавливаем Chrome
@@ -55,7 +55,7 @@ jobs:
     name: Создать отчет
     steps:
       - name: Устанавливаем Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5.4.0
         with:
           distribution: 'microsoft'
           java-version: '17'
