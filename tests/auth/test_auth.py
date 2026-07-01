@@ -25,4 +25,5 @@ class LoginTest(TestCase):
     @allure.title('Авторизация по логину и паролю')
     @allure.severity(allure.severity_level.CRITICAL)
     def test_01_basic_auth(self):
-        self.login_page.auth_by_login_and_password(self.config.get('LOGIN'), self.config.get('PASS'))
+        with allure.step('Авторизуемся по логину и паролю'):
+            self.login_page.auth_by_login_and_password(self.config.get('LOGIN'), self.config.get('PASS'))
